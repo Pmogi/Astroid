@@ -1,4 +1,8 @@
+--[[
+
 -- player library --
+Player = Entity:new()
+
 
 -- Derive player class from entity class method new
 player = Entity:new(entity, x=love.graphics.getWidth()/2,
@@ -6,3 +10,4 @@ player = Entity:new(entity, x=love.graphics.getWidth()/2,
                             img=nil)
 
 function Player:new()
+]]--
