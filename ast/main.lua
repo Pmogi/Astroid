@@ -1,8 +1,9 @@
-local entity = require "entity"
+--local entity = require "entity"
+local name = require "player"
 
-player = Entity:new(player, 200, 200 , 200, nil)
+player = Player:new(love.graphics.getWidth()/2, love.graphics.getHeight()/2, 0)
 
---print(player.pos)
+print("obtain inherited: ", player.pos.x)
 
 --[[player = {
     x = love.graphics.getWidth()/2,
@@ -24,6 +25,10 @@ function love.draw()
   player:testDraw()
 
 
+end
+
+function love.load()
+  player.setImg('assests/player.png')
 end
 
 function love.update(dt)

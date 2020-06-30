@@ -1,13 +1,26 @@
---[[
-
--- player library --
+-- player module--
+-- Inherits from entity, handles player input
+--
+local name = require "entity"
 Player = Entity:new()
 
-
 -- Derive player class from entity class method new
-player = Entity:new(entity, x=love.graphics.getWidth()/2,
-                            y=love.graphics.getHeight()/2,
-                            img=nil)
+function Player:new(xNew, yNew, angle, img)
+  player = Entity:new(player, xNew, yNew, angle, img)
+  setmetatable(player, self)
+  self.__index = self
 
-function Player:new()
-]]--
+  -- set up other player variables here
+
+  --
+
+  return player
+
+end
+
+-- player methods here
+
+--
+
+
+return Player
