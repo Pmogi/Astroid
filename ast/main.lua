@@ -1,9 +1,8 @@
 local entity = require "entity"
 
+player = Entity:new(player, 200, 200 , 200, nil)
 
-local plyer = Entity:new(player, 200, 200 , 200, nil)
-
-print(plyer.pos.x)
+--print(player.pos)
 
 --[[player = {
     x = love.graphics.getWidth()/2,
@@ -21,7 +20,8 @@ print(plyer.pos.x)
 ]]--
 
 function love.draw()
-
+  --print(player.pos.x)
+  player:testDraw()
 
 
 end

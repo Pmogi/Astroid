@@ -5,7 +5,7 @@ Entity = { pos = {x = 0, y = 0}, img = nil, angle = 0 }
 local entityTable = {}
 
 -- for storing the number of entities in the entity table
-local entityNumber = 1
+local entityNumber = 0
 
 -- Entity: new --
 -- Makes a new entity
@@ -20,16 +20,24 @@ function Entity:new(entity, xNew, yNew, angle, img)
   self.pos.y = yNew or 0
 
   self.img = img or nil
-  
+
   self.angle = angle or 0
 
-  -- insert the object
+  -- velecoity of entity in x,y
+  self.xv = 0
+  self.yv = 0
 
+  -- acceleration of entity in x,y
+  self.xa = 0
+  self.ya = 0
+
+  -- insert the new entity into the entity table
+  table.insert(entityTable, self)
 
   -- increment the stored number of entities
   entityNumber = entityNumber + 1
 
-  print(self.pos.x)
+  print(entityTable[1].pos.x)
 
   return entity
 end
@@ -50,8 +58,10 @@ function Entity:move(tgs, a, dt)
 
 end
 
-function Entity:draw(x, y)
-  love.graphics.circle("line", x, y, 50)
+function Entity:testDraw()
+  --print(self.pos.x)
+  love.graphics.circle("line", self.pos.x, self.pos.y, 50)
 end
+
 
 return entity
