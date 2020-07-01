@@ -29,7 +29,6 @@ function Entity:new(entity, xNew, yNew, angle)
 
   -- img is nil until
   self.img = nil
-
   -- starting angle of entity
   self.angle = angle or 0
 
@@ -53,24 +52,34 @@ function Entity:move(tgs, dt)
   local threshold = 0.4
 end
 
+-- Currently a test function for drawing the entity
+-- Later, I'll use a different module for drawing everything in the entity table
 function Entity:testDraw()
-  --print(self.pos.x)
-  -- love.graphics.circle("line", self.pos.x, self.pos.y, 50)
+  --print(self.img:getHeight())
+
   love.graphics.draw(self.img,
-                      self.x,
-                      self.y,
-                      self.angle + (math.pi/2),
+                      self.pos.x,
+                      self.pos.y,
+                      self.angle ,
                       1,
                       1,
-                      self.img.getWidth()/2,
-                      self.img.getHeight()/2)
+                      self.img:getWidth()/2,
+                      self.img:getHeight()/2)
+
+  love.graphics.circle("line", self.pos.x,
+                              self.pos.y,
+                              10)
+
 end
 
 -- getImg
--- Sets the image for the entity
-function Entity:setImg(imgAssestPath)
-  self.img = love.graphics.newImage(imgAssestPath)
+-- Sets a new image for the entity
+function Entity:setImg(newImg)
+  self.img = newImg
 end
 
+function Entity:getPos()
+  return string.format("%d, %d",self.pos.x, self.pos.y)
+end
 
 return entity
