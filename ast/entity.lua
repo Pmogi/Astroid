@@ -18,6 +18,8 @@ function Entity:new(entity, xNew, yNew, angle)
   self.pos   = {x = 0, y = 0}
 
   -- velocity of entity in x,y
+  self.maxVel = 2
+  self.accelRate = 20
   self.vel   = {x = 0, y = 0}
 
   -- acceleration of entity in x,y
@@ -27,10 +29,11 @@ function Entity:new(entity, xNew, yNew, angle)
   self.pos.x = xNew or 0
   self.pos.y = yNew or 0
 
-  -- img is nil until
+  -- EDIT INPUT OF NEW: is either nil or the img paramater, can be reset useing setImg method
   self.img = nil
+
   -- starting angle of entity
-  self.angle = angle or 0
+  self.angle = angle or math.pi
 
   -- insert the new entity into the entity table
   table.insert(entityTable, self)
@@ -46,10 +49,35 @@ end
 -- tgs: target speed of the object
 --
 
-function Entity:move(tgs, dt)
+function Entity:accelerationForward(dt, active)
 
-  local cur_speed = self.vel
-  local threshold = 0.4
+
+  -- dv/dt * dt = velocity
+  local velInc = self.accelRate * dt
+
+  if active == true then
+    self.vel.x = self.vel.x + (velInc*(math.cos(self.angle)))
+    self.vel.y = self.vel.y + (velInc*(math.sin(self.angle)))
+
+  elseif active == false and self.vel.x > 0 then
+    print(active)
+    self.vel.x = self.vel.x - (velInc*(math.cos(self.angle)))
+    self.vel.y = self.vel.y - (velInc*(math.sin(self.angle)))
+
+  elseif active == false and self.vel.x <= 0 and self.vel.y <= 0 then
+    self.vel.x = 0
+    self.vel.y = 0
+  end
+
+end
+
+function Entity:move(dt, active)
+  self:accelerationForward(dt, active)
+
+
+  self.pos.x = self.pos.x + self.vel.x*dt
+
+
 end
 
 -- Currently a test function for drawing the entity

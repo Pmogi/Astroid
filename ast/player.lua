@@ -13,14 +13,17 @@ function Player:new(xNew, yNew, angle, img)
   -- set up other player variables here
 
   --
-
   return player
 
 end
 
--- player methods here
-
---
+function Player:getAction(dt)
+  if (love.keyboard.isDown('w')) then
+    self:move(dt, true)
+  else
+    self:move(dt, false)
+  end
+end
 
 
 return Player

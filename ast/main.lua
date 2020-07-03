@@ -9,7 +9,6 @@ print("obtain inherited: ", player.pos.x)
 function love.draw(dt)
   player:testDraw()
   love.graphics.print(player:getPos())
-
 end
 
 function love.load()
@@ -18,5 +17,5 @@ function love.load()
 end
 
 function love.update(dt)
-
+  player:getAction(dt)
 end
