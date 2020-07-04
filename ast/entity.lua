@@ -9,7 +9,7 @@ local entityNumber = 0
 
 -- Entity: new --
 -- Makes a new entity
-function Entity:new(entity, xNew, yNew, angle)
+function Entity:new(entity, xNew, yNew, angle, img)
   entity = entity or {}
   setmetatable(entity, self)
   self.__index = self
@@ -19,7 +19,7 @@ function Entity:new(entity, xNew, yNew, angle)
 
   -- velocity of entity in x,y
   self.maxVel = 2
-  self.accelRate = 20
+  self.accelRate = 200
   self.vel   = {x = 0, y = 0}
 
   -- acceleration of entity in x,y
@@ -46,7 +46,7 @@ end
 
 
 --- move: function for moving a function
--- tgs: target speed of the object
+-- janky af function for forward acceleration
 --
 
 function Entity:accelerationForward(dt, active)
@@ -56,17 +56,32 @@ function Entity:accelerationForward(dt, active)
   local velInc = self.accelRate * dt
 
   if active == true then
-    self.vel.x = self.vel.x + (velInc*(math.cos(self.angle)))
-    self.vel.y = self.vel.y + (velInc*(math.sin(self.angle)))
+    self.vel.x = self.vel.x + (velInc)
+    self.vel.y = self.vel.y + (velInc)
+  end
 
-  elseif active == false and self.vel.x > 0 then
-    print(active)
-    self.vel.x = self.vel.x - (velInc*(math.cos(self.angle)))
-    self.vel.y = self.vel.y - (velInc*(math.sin(self.angle)))
+  -- check the x velocity
+  if (active == false) and (math.abs(self.vel.x) ~= 0) then
 
-  elseif active == false and self.vel.x <= 0 and self.vel.y <= 0 then
-    self.vel.x = 0
-    self.vel.y = 0
+    -- assert a point where the value is just zero
+    if (1 > self.vel.x and self.vel.x > -1) then
+      self.vel.x = 0
+    else
+      -- else deaccelerate as expected
+      self.vel.x = self.vel.x - (velInc)
+    end
+  end
+
+  -- check the y velocity
+  if (active == false) and (math.abs(self.vel.y) ~= 0) then
+
+    -- assert still state
+    if (1 > self.vel.y and self.vel.y > -1) then
+      self.vel.y = 0
+    else
+    -- deaccelerate
+      self.vel.y = self.vel.y - (velInc)
+    end
   end
 
 end
@@ -75,7 +90,8 @@ function Entity:move(dt, active)
   self:accelerationForward(dt, active)
 
 
-  self.pos.x = self.pos.x + self.vel.x*dt
+  self.pos.x = self.pos.x + self.vel.x*dt*math.cos(self.angle)
+  self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)
 
 
 end
@@ -84,11 +100,11 @@ end
 -- Later, I'll use a different module for drawing everything in the entity table
 function Entity:testDraw()
   --print(self.img:getHeight())
-
+  print(self.angle)
   love.graphics.draw(self.img,
                       self.pos.x,
                       self.pos.y,
-                      self.angle ,
+                      self.angle + math.pi/2,
                       1,
                       1,
                       self.img:getWidth()/2,

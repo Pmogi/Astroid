@@ -4,16 +4,13 @@ local accessAssest = require "accessAssest"
 
 player = Player:new(love.graphics.getWidth()/2, love.graphics.getHeight()/2, 0)
 
-print("obtain inherited: ", player.pos.x)
-
 function love.draw(dt)
   player:testDraw()
-  love.graphics.print(player:getPos())
+  love.graphics.print(string.format("vx:%d vy:%d", player.vel.x, player.vel.y))
 end
 
 function love.load()
   player:setImg(accessAssest.getAssest("playerIMG"))
-
 end
 
 function love.update(dt)
