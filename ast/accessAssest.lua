@@ -4,6 +4,8 @@ local accessAssest = {}
 local assets = {}
 
 assets["playerIMG"] = love.graphics.newImage('assests/player.png')
+assets["bulletIMG"] = love.graphics.newImage('assests/bullet.png')
+assets["backGround"] = love.graphics.newImage('assests/starBackground.png')
 
 
 --function accessAssest.getAssest(key)

@@ -18,7 +18,7 @@ function Entity:new(entity, xNew, yNew, angle, img)
   self.pos   = {x = 0, y = 0}
 
   -- velocity of entity in x,y
-  self.maxVel = 2
+  self.maxVel = 300
   self.accelRate = 200
   self.vel   = {x = 0, y = 0}
 
@@ -34,6 +34,8 @@ function Entity:new(entity, xNew, yNew, angle, img)
 
   -- starting angle of entity
   self.angle = angle or math.pi
+
+  -- draw angle
 
   -- insert the new entity into the entity table
   table.insert(entityTable, self)
@@ -51,13 +53,12 @@ end
 
 function Entity:accelerationForward(dt, active)
 
-
   -- dv/dt * dt = velocity
   local velInc = self.accelRate * dt
 
-  if active == true then
-    self.vel.x = self.vel.x + (velInc)
-    self.vel.y = self.vel.y + (velInc)
+  if active == true and (self.vel.x < self.maxVel and self.vel.y < self.maxVel) then
+    self.vel.x = self.vel.x + velInc
+    self.vel.y = self.vel.y + velInc
   end
 
   -- check the x velocity
@@ -88,7 +89,6 @@ end
 
 function Entity:move(dt, active)
   self:accelerationForward(dt, active)
-
 
   self.pos.x = self.pos.x + self.vel.x*dt*math.cos(self.angle)
   self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)

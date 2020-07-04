@@ -2,6 +2,8 @@
 -- Inherits from entity, handles player input
 --
 local name = require "entity"
+local bulletManager = require "bullet"
+
 Player = Entity:new()
 
 -- Derive player class from entity class method new
@@ -36,6 +38,10 @@ function Player:getAction(dt)
 
   if (love.keyboard.isDown('a')) then
     self.angle = self.angle - (math.pi*dt)
+  end
+
+  if (love.keyboard.isDown('space')) then
+    bulletManager:new()
   end
 end
 
