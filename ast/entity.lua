@@ -84,7 +84,6 @@ function Entity:accelerationForward(dt, active)
       self.vel.y = self.vel.y - (velInc)
     end
   end
-
 end
 
 function Entity:move(dt, active)
@@ -92,15 +91,13 @@ function Entity:move(dt, active)
 
   self.pos.x = self.pos.x + self.vel.x*dt*math.cos(self.angle)
   self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)
-
-
 end
 
 -- Currently a test function for drawing the entity
 -- Later, I'll use a different module for drawing everything in the entity table
 function Entity:testDraw()
   --print(self.img:getHeight())
-  print(self.angle)
+  --print(self.angle)
   love.graphics.draw(self.img,
                       self.pos.x,
                       self.pos.y,
@@ -113,7 +110,6 @@ function Entity:testDraw()
   love.graphics.circle("line", self.pos.x,
                               self.pos.y,
                               10)
-
 end
 
 -- getImg

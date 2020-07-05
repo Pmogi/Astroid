@@ -6,6 +6,8 @@ local bulletManager = require "bullet"
 
 Player = Entity:new()
 
+-- A timer to prevent the player from spamming bullets
+
 -- Derive player class from entity class method new
 function Player:new(xNew, yNew, angle, img)
   player = Entity:new(player, xNew, yNew, angle, img)
@@ -16,11 +18,17 @@ function Player:new(xNew, yNew, angle, img)
   --
   self.angle = angle
 
+  -- a timer to prevent the player from spamming bullets
+  self.shootingTimer = 0
+  self.shootingTimerLimit = 1
+
   return player
 end
 
 
 function Player:getAction(dt)
+  -- inc the shooting timer
+  self.shootingTimer = self.shootingTimer + 1*dt
 
   -- if W is down, then accelerate forwards
   if (love.keyboard.isDown('w')) then
@@ -41,7 +49,11 @@ function Player:getAction(dt)
   end
 
   if (love.keyboard.isDown('space')) then
-    bulletManager:new()
+    bulletManager.shootBullet(self.pos.x, self.pos.y, self.angle)
+  end
+
+  if (love.keyboard.isDown('escape')) then
+    love.event.push('quit')
   end
 end
 
