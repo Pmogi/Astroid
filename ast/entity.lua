@@ -1,5 +1,5 @@
 --entity module--
-Entity = { pos = {x = 0, y = 0}, img = nil, angle = 0 }
+Entity = {}
 
 -- table for storing all the entities
 local entityTable = {}
@@ -47,8 +47,8 @@ function Entity:new(entity, xNew, yNew, angle, img)
 end
 
 
---- move: function for moving a function
--- janky af function for forward acceleration
+--- accelerationForward: function for moving a function
+--  A kinda janky method for accelerating an entity forward.
 --
 
 function Entity:accelerationForward(dt, active)
@@ -86,12 +86,17 @@ function Entity:accelerationForward(dt, active)
   end
 end
 
+
+
 function Entity:move(dt, active)
   self:accelerationForward(dt, active)
 
   self.pos.x = self.pos.x + self.vel.x*dt*math.cos(self.angle)
   self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)
 end
+
+
+
 
 -- Currently a test function for drawing the entity
 -- Later, I'll use a different module for drawing everything in the entity table
@@ -116,6 +121,10 @@ end
 -- Sets a new image for the entity
 function Entity:setImg(newImg)
   self.img = newImg
+end
+
+function Entity:returnEntNum()
+  return entityNumber
 end
 
 function Entity:getPos()

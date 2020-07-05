@@ -11,7 +11,7 @@ local bulletList = {}
 
 
 -- attributres for bullets
-local bulletSpeed = 600
+local bulletSpeed = 800
 
 local img = ass.getAssest("bulletIMG")
 

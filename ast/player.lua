@@ -16,7 +16,11 @@ function Player:new(xNew, yNew, angle, img)
 
   -- set up other player variables here
   --
+  self.pos = {}
+  self.pos.x = xNew
+  self.pos.y = yNew
   self.angle = angle
+
 
   -- a timer to prevent the player from spamming bullets
   self.shootingTimer = 0
