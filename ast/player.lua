@@ -20,7 +20,7 @@ function Player:new(xNew, yNew, angle, img)
 
   -- a timer to prevent the player from spamming bullets
   self.shootingTimer = 0
-  self.shootingTimerLimit = 1
+  self.shootingTimerLimit = .5
 
   return player
 end
@@ -48,8 +48,9 @@ function Player:getAction(dt)
     self.angle = self.angle - (math.pi*dt)
   end
 
-  if (love.keyboard.isDown('space')) then
+  if (love.keyboard.isDown('space') and self.shootingTimer > self.shootingTimerLimit) then
     bulletManager.shootBullet(self.pos.x, self.pos.y, self.angle)
+    self.shootingTimer = 0
   end
 
   if (love.keyboard.isDown('escape')) then
