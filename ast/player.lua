@@ -29,7 +29,7 @@ function Player:new(xNew, yNew, angle, img)
   -- drawable used for the player's character
   self.img = img
 
-  -- hitbox information, a rectangle at the center of the ship
+  -- initilize hitbox information, a rectangle at the center of the ship
   self.hitx = self.pos.x - self.img:getWidth()/4
   self.hity = self.pos.y - self.img:getHeight()/4
 
@@ -91,8 +91,8 @@ function Player:drawPlayer(hitbox)
   hitbox = hitbox or false
 
   love.graphics.draw(self.img,
-                      self.pos.x,
-                      self.pos.y,
+                      self.pos.x % love.graphics.getWidth(),
+                      self.pos.y % love.graphics.getHeight(),
                       self.angle + math.pi/2,
                       1, -- scale x
                       1, -- scale y
@@ -101,8 +101,8 @@ function Player:drawPlayer(hitbox)
 
   if (hitbox) then
   love.graphics.rectangle('line',
-                          self.hitx,
-                          self.hity,
+                          self.hitx % love.graphics.getWidth(),
+                          self.hity % love.graphics.getHeight(),
                           self.hitWidth,
                           self.hitHeight)
     end

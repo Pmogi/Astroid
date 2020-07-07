@@ -18,6 +18,8 @@ function love.draw(dt)
   --
   bulletManager.drawBullets()
   player:drawPlayer(true)
+
+  -- replace with function that draws all entities
   rock:testDraw()
 
   love.graphics.print(string.format("vx:%d vy:%d", player.vel.x, player.vel.y))
