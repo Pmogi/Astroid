@@ -1,9 +1,11 @@
---local entity = require "entity"
+--------- main module ---------
+
 local Player = require "player"
 local accessAssest = require "accessAssest"
 local bulletManager = require "bullet"
 local Rock = require "rock"
 
+-- Used for drawing the background
 local quad = love.graphics.newQuad(0,0,love.graphics.getWidth(), love.graphics.getHeight(), 256,254)
 
 player = Player:new(love.graphics.getWidth()/2, love.graphics.getHeight()/2, 0, accessAssest.getAssest("playerIMG"))
@@ -16,9 +18,7 @@ function love.draw(dt)
   --
   bulletManager.drawBullets()
   player:drawPlayer(true)
-  rock:spawnRock()
   rock:testDraw()
-
 
   love.graphics.print(string.format("vx:%d vy:%d", player.vel.x, player.vel.y))
 end

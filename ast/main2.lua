@@ -1,3 +1,5 @@
+------ Depricated initial version from years ago ------
+
 debug = false
 getHeight = love.graphics.getHeight()
 getWidth = love.graphics.getWidth()

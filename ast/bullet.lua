@@ -1,10 +1,8 @@
+------------ Bullet module ------------
+
 Bullet = {}
 
 local ass = require "accessAssest"
-
--- Bullet module
-
-
 
 -- table for storing all the bullets
 local bulletList = {}
@@ -15,7 +13,10 @@ local bulletSpeed = 800
 
 local img = ass.getAssest("bulletIMG")
 
-
+-- shootBullet --
+-- Creates a new bullet and appends the bullet to the bullet table.
+-- x,y position and the angle of the emitter is passed in as a starting point
+-- for the bullet.
 function Bullet.shootBullet(x, y, newAngle)
   bullet = {}
   bullet.pos = {}
@@ -33,7 +34,9 @@ function Bullet.shootBullet(x, y, newAngle)
   table.insert(bulletList, bullet)
 end
 
-
+-- updateBullets --
+-- Increases the bullets position with constant velocity determined by the
+-- modular variable bulletSpeed.
 function Bullet.updateBullets(dt)
   for i,bullet in ipairs(bulletList) do
     bullet.pos.x = bullet.pos.x + bulletSpeed*dt*math.cos(bullet.angle)
@@ -41,6 +44,8 @@ function Bullet.updateBullets(dt)
   end
 end
 
+-- drawBullets --
+-- Draws the bullets
 function Bullet.drawBullets(dt, drawHit)
   for i,bullet in ipairs(bulletList) do
     love.graphics.draw(img,
@@ -52,13 +57,10 @@ function Bullet.drawBullets(dt, drawHit)
                         img:getWidth()/2,
                         img:getHeight()/2)
 
-    -- update hitbox of bullet
-    bullet.hitx = bullet.pos.x - bullet.img:getWidth()/4
-    bullet.hity = bullet.pos.y - bullet.img:getHeight()/4
+    -- update hitbox of bullet by calling the function
+    Bullet.updateHitBox(bullet)
 
-    bullet.hitWidth  = bullet.img:getWidth()/2
-    bullet.hitHeight = bullet.img:getHeight()/2
-
+    -- conditional for drawing the hitbox of the bullet
     if (drawHit) then
       love.graphics.rectangle('line',
                               bullet.hitx,
@@ -69,5 +71,12 @@ function Bullet.drawBullets(dt, drawHit)
   end
 end
 
+function Bullet.updateHitBox(bullet)
+  bullet.hitx = bullet.pos.x - bullet.img:getWidth()/4
+  bullet.hity = bullet.pos.y - bullet.img:getHeight()/4
+
+  bullet.hitWidth  = bullet.img:getWidth()/2
+  bullet.hitHeight = bullet.img:getHeight()/2
+end
 
 return Bullet
