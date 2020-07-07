@@ -26,9 +26,27 @@ function Player:new(xNew, yNew, angle, img)
   self.shootingTimer = 0
   self.shootingTimerLimit = .5
 
+  -- drawable used for the player's character
+  self.img = img
+
+  -- hitbox information, a rectangle at the center of the ship
+  self.hitx = self.pos.x - self.img:getWidth()/4
+  self.hity = self.pos.y - self.img:getHeight()/4
+
+  self.hitWidth  = self.img:getWidth()/2
+  self.hitHeight = self.img:getHeight()/2
+
   return player
 end
 
+
+function Player:updateHitBox()
+  self.hitx = self.pos.x - self.img:getWidth()/4
+  self.hity = self.pos.y - self.img:getHeight()/4
+
+  self.hitWidth  = self.img:getWidth()/2
+  self.hitHeight = self.img:getHeight()/2
+end
 
 function Player:getAction(dt)
   -- inc the shooting timer
@@ -60,8 +78,37 @@ function Player:getAction(dt)
   if (love.keyboard.isDown('escape')) then
     love.event.push('quit')
   end
+
+  -- update the hitbox of the player
+  Player:updateHitBox()
 end
 
+-- Player:drawPlayer
+-- Draws the player and an optional hitbox
+
+function Player:drawPlayer(hitbox)
+  -- drawing the hitbox defaults to false
+  hitbox = hitbox or false
+
+  love.graphics.draw(self.img,
+                      self.pos.x,
+                      self.pos.y,
+                      self.angle + math.pi/2,
+                      1, -- scale x
+                      1, -- scale y
+                      self.img:getWidth()/2, -- origin offset
+                      self.img:getHeight()/2) -- origin offset
+
+  if (hitbox) then
+  love.graphics.rectangle('line',
+                          self.hitx,
+                          self.hity,
+                          self.hitWidth,
+                          self.hitHeight)
+
+    end
+
+end
 
 
 return Player

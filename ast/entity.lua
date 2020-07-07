@@ -15,7 +15,7 @@ function Entity:new(entity, xNew, yNew, angle, img)
   self.__index = self
 
   -- position of entity in x,y
-  self.pos   = {x = 0, y = 0}
+  self.pos = {x = 0, y = 0}
 
   -- velocity of entity in x,y
   self.maxVel = 300
@@ -107,10 +107,10 @@ function Entity:testDraw()
                       self.pos.x,
                       self.pos.y,
                       self.angle + math.pi/2,
-                      1,
-                      1,
-                      self.img:getWidth()/2,
-                      self.img:getHeight()/2)
+                      1, -- scale x
+                      1, -- scale y
+                      self.img:getWidth()/2, -- origin offset
+                      self.img:getHeight()/2) -- origin offset
 
   love.graphics.circle("line", self.pos.x,
                               self.pos.y,

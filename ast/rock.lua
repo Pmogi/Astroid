@@ -24,10 +24,24 @@ end
 
 -- pick a random side to spawn the rock
 function Rock:spawnRock()
-
-
   side = math.random(1, 4)
-  print(side)
+
+  -- top
+  if (side == 1) then
+
+  -- right
+  elseif (side == 2) then
+
+  -- bottom
+  elseif (side == 3) then
+
+  --left
+  else
+
+
+  end
+
 end
+
 
 return Rock

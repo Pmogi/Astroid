@@ -6,7 +6,7 @@ local Rock = require "rock"
 
 local quad = love.graphics.newQuad(0,0,love.graphics.getWidth(), love.graphics.getHeight(), 256,254)
 
-player = Player:new(love.graphics.getWidth()/2, love.graphics.getHeight()/2, 0)
+player = Player:new(love.graphics.getWidth()/2, love.graphics.getHeight()/2, 0, accessAssest.getAssest("playerIMG"))
 rock   = Rock:new(0, 0, 0)
 
 function love.draw(dt)
@@ -15,7 +15,7 @@ function love.draw(dt)
   -- Entity.drawEntities()
   --
   bulletManager.drawBullets()
-  player:testDraw()
+  player:drawPlayer(true)
   rock:spawnRock()
   rock:testDraw()
 
@@ -27,7 +27,7 @@ function love.load()
   backgroundImg = accessAssest.getAssest("backgroundIMG")
   backgroundImg:setWrap("repeat","repeat")
 
-  player:setImg(accessAssest.getAssest("playerIMG"))
+  player:setImg()
 end
 
 function love.update(dt)
