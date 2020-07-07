@@ -105,7 +105,6 @@ function Player:drawPlayer(hitbox)
                           self.hity,
                           self.hitWidth,
                           self.hitHeight)
-
     end
 
 end

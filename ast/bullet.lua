@@ -22,8 +22,14 @@ function Bullet.shootBullet(x, y, newAngle)
   bullet.pos.x = x
   bullet.pos.y = y
   bullet.angle = newAngle
+  bullet.img = img
 
-  print(bullet.pos.x)
+  bullet.hitx = bullet.pos.x - bullet.img:getWidth()/4
+  bullet.hity = bullet.pos.y - bullet.img:getHeight()/4
+
+  bullet.hitWidth  = bullet.img:getWidth()/2
+  bullet.hitHeight = bullet.img:getHeight()/2
+
   table.insert(bulletList, bullet)
 end
 
@@ -35,7 +41,7 @@ function Bullet.updateBullets(dt)
   end
 end
 
-function Bullet.drawBullets(dt)
+function Bullet.drawBullets(dt, drawHit)
   for i,bullet in ipairs(bulletList) do
     love.graphics.draw(img,
                         bullet.pos.x,
@@ -45,6 +51,21 @@ function Bullet.drawBullets(dt)
                         1,
                         img:getWidth()/2,
                         img:getHeight()/2)
+
+    -- update hitbox of bullet
+    bullet.hitx = bullet.pos.x - bullet.img:getWidth()/4
+    bullet.hity = bullet.pos.y - bullet.img:getHeight()/4
+
+    bullet.hitWidth  = bullet.img:getWidth()/2
+    bullet.hitHeight = bullet.img:getHeight()/2
+
+    if (drawHit) then
+      love.graphics.rectangle('line',
+                              bullet.hitx,
+                              bullet.hity,
+                              bullet.hitWidth,
+                              bullet.hitHeight)
+    end
   end
 end
 

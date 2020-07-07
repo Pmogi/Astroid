@@ -31,6 +31,6 @@ function love.load()
 end
 
 function love.update(dt)
-  bulletManager.updateBullets(dt)
+  bulletManager.updateBullets(dt, true)
   player:getAction(dt)
 end
