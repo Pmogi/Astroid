@@ -37,7 +37,9 @@ end
 -- updateBullets --
 -- Increases the bullets position with constant velocity determined by the
 -- modular variable bulletSpeed.
-function Bullet.updateBullets(dt)
+function Bullet.updateBullets(dt, drawHit)
+  drawhit = drawHit or false
+
   for i,bullet in ipairs(bulletList) do
     bullet.pos.x = bullet.pos.x + bulletSpeed*dt*math.cos(bullet.angle)
     bullet.pos.y = bullet.pos.y + bulletSpeed*dt*math.sin(bullet.angle)
@@ -62,6 +64,7 @@ function Bullet.drawBullets(dt, drawHit)
 
     -- conditional for drawing the hitbox of the bullet
     if (drawHit) then
+      print(type(bullet))
       love.graphics.rectangle('line',
                               bullet.hitx,
                               bullet.hity,

@@ -95,14 +95,15 @@ function Entity:move(dt, active)
   self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)
 end
 
-
-
+function Entity.testPrint()
+  print(entityTable[0].pos.x)
+end
 
 -- Currently a test function for drawing the entity
 -- Later, I'll use a different module for drawing everything in the entity table
 function Entity:testDraw()
-  --print(self.img:getHeight())
-  --print(self.angle)
+    --print(self.img:getHeight())
+    --print(self.angle)
   love.graphics.draw(self.img,
                       self.pos.x,
                       self.pos.y,

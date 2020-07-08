@@ -39,7 +39,6 @@ function Player:new(xNew, yNew, angle, img)
   return player
 end
 
-
 function Player:updateHitBox()
   self.hitx = self.pos.x - self.img:getWidth()/4
   self.hity = self.pos.y - self.img:getHeight()/4
@@ -85,14 +84,13 @@ end
 
 -- Player:drawPlayer
 -- Draws the player and an optional hitbox
-
 function Player:drawPlayer(hitbox)
   -- drawing the hitbox defaults to false
   hitbox = hitbox or false
 
   love.graphics.draw(self.img,
-                      self.pos.x % love.graphics.getWidth(),
-                      self.pos.y % love.graphics.getHeight(),
+                      self.pos.x ,
+                      self.pos.y ,
                       self.angle + math.pi/2,
                       1, -- scale x
                       1, -- scale y
@@ -101,8 +99,8 @@ function Player:drawPlayer(hitbox)
 
   if (hitbox) then
   love.graphics.rectangle('line',
-                          self.hitx % love.graphics.getWidth(),
-                          self.hity % love.graphics.getHeight(),
+                          self.hitx,
+                          self.hity,
                           self.hitWidth,
                           self.hitHeight)
     end

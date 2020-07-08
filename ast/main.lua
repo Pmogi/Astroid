@@ -4,6 +4,7 @@ local Player = require "player"
 local accessAssest = require "accessAssest"
 local bulletManager = require "bullet"
 local Rock = require "rock"
+local Entity = require "entity"
 
 -- Used for drawing the background
 local quad = love.graphics.newQuad(0,0,love.graphics.getWidth(), love.graphics.getHeight(), 256,254)
@@ -16,11 +17,12 @@ function love.draw(dt)
 
   -- Entity.drawEntities()
   --
-  bulletManager.drawBullets()
+  bulletManager.drawBullets(dt, true)
   player:drawPlayer(true)
 
   -- replace with function that draws all entities
   rock:testDraw()
+  entity.testPrint()
 
   love.graphics.print(string.format("vx:%d vy:%d", player.vel.x, player.vel.y))
 end
@@ -28,6 +30,7 @@ end
 function love.load()
   backgroundImg = accessAssest.getAssest("backgroundIMG")
   backgroundImg:setWrap("repeat","repeat")
+
 
   player:setImg()
 end

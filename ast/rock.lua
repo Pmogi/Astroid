@@ -52,7 +52,7 @@ function Rock:spawnRockPosition()
   end
 
   -- return the position of the new rock
-  return x, y
+  return x, y-200
 end
 
 
