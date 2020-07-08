@@ -14,6 +14,9 @@ function Entity:new(entity, xNew, yNew, angle, img)
   setmetatable(entity, self)
   self.__index = self
 
+  -- An ID is assigned in the child entity classes
+  self.ID = nil
+
   -- position of entity in x,y
   self.pos = {x = 0, y = 0}
 
@@ -39,7 +42,6 @@ function Entity:new(entity, xNew, yNew, angle, img)
 
   -- insert the new entity into the entity table
   table.insert(entityTable, self)
-
   -- increment the stored number of entities
   entityNumber = entityNumber + 1
 
@@ -95,8 +97,8 @@ function Entity:move(dt, active)
   self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)
 end
 
-function Entity.testPrint()
-  print(entityTable[0].pos.x)
+function Entity:testPrint()
+  print(entityTable[1].pos.x)
 end
 
 -- Currently a test function for drawing the entity
@@ -132,4 +134,4 @@ function Entity:getPos()
   return string.format("%d, %d",self.pos.x, self.pos.y)
 end
 
-return entity
+return Entity
