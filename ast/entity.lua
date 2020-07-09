@@ -7,12 +7,24 @@ local entityTable = {}
 -- for storing the number of entities in the entity table
 local entityNumber = 0
 
+-- Used as parameter in the calculation of rotation acceleration
+rotationalDir = {dirCW  = 1, dirCCW = -1}
+
+
 -- Entity: new --
 -- Makes a new entity
 function Entity:new(entity, xNew, yNew, angle, img)
   entity = entity or {}
   setmetatable(entity, self)
   self.__index = self
+
+  --[[
+   IMPORTANT NOTE:
+   Variables that children classes depend on need to be redefined in the
+   new of the child class. Otherwise, it the child class uses
+   the variables from the entity class. These variables are used here for the
+   definition of the entity class functions.
+  ]]
 
   -- position of entity in x,y
   self.pos = {x = 0, y = 0}
@@ -21,6 +33,11 @@ function Entity:new(entity, xNew, yNew, angle, img)
   self.maxVel = 300
   self.accelRate = 200
   self.vel   = {x = 0, y = 0}
+
+  -- velcoity of the entity's rotation
+  self.rotVel = 0
+  self.maxRotVel = math.pi
+  self.accelRotRate = math.pi*2
 
   -- acceleration of entity in x,y
   self.accel = {x = 0, y = 0}
@@ -48,10 +65,12 @@ end
 
 
 --- accelerationForward: function for moving a function
---  A kinda janky method for accelerating an entity forward.
+--  A FSM for determining the velocity of a moving entity.
 --
 
 function Entity:accelerationForward(dt, active)
+
+  active = active or false
 
   -- dv/dt * dt = velocity
   local velInc = self.accelRate * dt
@@ -86,6 +105,36 @@ function Entity:accelerationForward(dt, active)
   end
 end
 
+-- accelerationRotation
+-- A FSM for determining the velocity of a rotation entity
+-- CW is positive direction, CCW is neg direction
+function Entity:accelerationRotation(dt, active, direction)
+
+  active = active or false
+
+  -- d rad /dt * dt = rad
+  local velInc = self.accelRotRate * dt
+
+  -- if player pressed button and not at max, increase velocity.
+  if active == true and (self.rotVel < self.maxRotVel and self.rotVel > -self.maxRotVel) then
+    self.rotVel = self.rotVel + (velInc*direction)
+  end
+
+  -- check the rotational velocity
+  if (active == false) and (math.abs(self.rotVel) ~= 0) then
+
+    -- assert a point where the value is just zero
+    if (0.3 > self.rotVel and self.rotVel > -0.3) then
+      self.rotVel = 0
+
+    -- cause force in opp direction to deaccelerate
+    elseif (self.rotVel > 0) then
+      self.rotVel = self.rotVel + (velInc*-1)*4
+    elseif (self.rotVel < 0) then
+      self.rotVel = self.rotVel + (velInc)*4
+    end
+  end
+end
 
 
 function Entity:move(dt, active)
@@ -95,6 +144,13 @@ function Entity:move(dt, active)
   self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)
 end
 
+-- rotate the entity based on it's velocity
+function Entity:rotate(dt, active, direction)
+  Entity:accelerationRotation(dt, active, direction)
+  self.angle = self.angle + (self.rotVel*dt)
+end
+
+--oops the issue is that the entity table isn't being updated...
 function Entity.testPrint()
   print(entityTable[0].pos.x)
 end
