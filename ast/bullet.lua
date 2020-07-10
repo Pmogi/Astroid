@@ -64,7 +64,6 @@ function Bullet.drawBullets(dt, drawHit)
 
     -- conditional for drawing the hitbox of the bullet
     if (drawHit) then
-      print(type(bullet))
       love.graphics.rectangle('line',
                               bullet.hitx,
                               bullet.hity,

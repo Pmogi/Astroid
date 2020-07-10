@@ -16,6 +16,7 @@ function Player:new(xNew, yNew, angle, img)
 
   -- set up other player variables here
   --
+  self.ID = "Player"
   self.pos = {}
   self.pos.x = xNew
   self.pos.y = yNew

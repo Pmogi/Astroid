@@ -4,19 +4,37 @@
 local entity = require "entity"
 local ass = require "accessAssest"
 
+
 Rock = Entity:new()
 math.randomseed(69) -- nice
 
-function Rock:new(xNew, yNew, angle, img)
+local rockList = {}
+
+function Rock:new(player)
   rock = Entity:new(rock, xNew, yNew, angle, img)
   setmetatable(rock, self)
   self.__index = self
+
+  self.ID = "Rock"
   self.pos = {}
   self.pos.x, self.pos.y = Rock:spawnRockPosition()
-  self.angle = angle
+  self.angle = Rock:getAngleToPlayer(player)
+
+  -- velocity of entity in x,y
+  self.maxVel = 10
+  self.accelRate = 10
+  self.vel   = {x = 0, y = 0}
+
+  -- velcoity of the entity's rotation
+  self.rotVel = 0
+  self.maxRotVel = math.pi
+  self.accelRotRate = math.pi*2
+
 
   -- changable later
   self.img = ass.getAssest("rockIMG")
+
+  table.insert(rockList,self)
 
   return rock
 end
@@ -54,5 +72,15 @@ function Rock:spawnRockPosition()
   return x, y-200
 end
 
+-- getAngleToPlayer:
+-- Get the angle that would propell the rock towards the player initially in rads.
+function Rock:getAngleToPlayer(player)
+  return -math.atan2(player.pos.y, player.pos.x)
+end
+
+function Rock:testMove(dt)
+  self:accelerationForward(dt, true)
+  self:move(dt, true)
+end
 
 return Rock
