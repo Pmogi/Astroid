@@ -22,7 +22,7 @@ function love.draw(dt)
 
   -- replace with function that draws all entities
   rock:testDraw()
-  Entity:testPrint()
+
 
   love.graphics.print(string.format("vx:%d vy:%d", player.vel.x, player.vel.y))
 end

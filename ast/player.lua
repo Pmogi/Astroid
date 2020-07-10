@@ -62,11 +62,12 @@ function Player:getAction(dt)
 
   -- rotating the player with a and d
   if (love.keyboard.isDown('d')) then
-    self.angle = self.angle + (math.pi*dt)
-  end
+    self:rotate(dt, true, rotationalDir.dirCW)
 
-  if (love.keyboard.isDown('a')) then
-    self.angle = self.angle - (math.pi*dt)
+  elseif (love.keyboard.isDown('a')) then
+    self:rotate(dt, true, rotationalDir.dirCCW)
+  else
+    self:rotate(dt, false)
   end
 
   if (love.keyboard.isDown('space') and self.shootingTimer > self.shootingTimerLimit) then
@@ -104,7 +105,6 @@ function Player:drawPlayer(hitbox)
                           self.hitWidth,
                           self.hitHeight)
     end
-
 end
 
 
