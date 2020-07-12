@@ -30,9 +30,19 @@ function Rock:new(player)
   self.maxRotVel = math.pi
   self.accelRotRate = math.pi*2
 
+  self.rotationDir = 0
 
   -- changable later
   self.img = ass.getAssest("rockIMG")
+
+  -- initilize hitbox information, a rectangle at the center of the ship
+  self.hitx = self.pos.x - self.img:getWidth()/4
+  self.hity = self.pos.y - self.img:getHeight()/4
+
+  self.hitWidth  = self.img:getWidth()/2
+  self.hitHeight = self.img:getHeight()/2
+
+
 
   table.insert(rockList,self)
 
@@ -81,6 +91,41 @@ end
 function Rock:testMove(dt)
   self:accelerationForward(dt, true)
   self:move(dt, true)
+
+  self:accelerationRotation(dt, true, self.rotationDir)
+  self:rotate(dt, true, self.rotationDir)
+
+  self:recalculateHitBox()
+end
+
+function Rock:draw(hitbox)
+  -- drawing the hitbox defaults to false
+  hitbox = hitbox or false
+
+  love.graphics.draw(self.img,
+                      self.pos.x ,
+                      self.pos.y ,
+                      self.angle + math.pi/2,
+                      0.5, -- scale x
+                      0.5, -- scale y
+                      self.img:getWidth()/2, -- origin offset
+                      self.img:getHeight()/2) -- origin offset
+
+  if (hitbox) then
+  love.graphics.rectangle('line',
+                          self.hitx,
+                          self.hity,
+                          self.hitWidth,
+                          self.hitHeight)
+    end
+end
+
+function Rock:recalculateHitBox()
+  self.hitx = self.pos.x - self.img:getWidth()/4
+  self.hity = self.pos.y - self.img:getHeight()/4
+
+  self.hitWidth  = self.img:getWidth()/2
+  self.hitHeight = self.img:getHeight()/1.2 - 20
 end
 
 return Rock

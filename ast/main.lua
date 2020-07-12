@@ -19,7 +19,7 @@ function love.draw(dt)
 
 
   -- replace with function that draws all entities
-  rock:testDraw()
+  rock:draw(true)
 
   love.graphics.print(string.format("vx:%d vy:%d rockAng:%f",
                                     player.vel.x, player.vel.y,
