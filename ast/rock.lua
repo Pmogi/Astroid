@@ -1,57 +1,52 @@
 --------------- enemy rock module ---------------
 -- inherits from entity
 
-local entity = require "entity"
-local ass = require "accessAssest"
+local Entity = require "entity"
+local asset = require "accessAssest"
 
 
-Rock = Entity:new()
-math.randomseed(69) -- nice
+local Rock = Entity:new()
 
-local rockList = {}
 
-function Rock:new(player)
-  rock = Entity:new(rock, xNew, yNew, angle, img)
+function Rock:new(rock, playerPos)
+  local rock = Entity:new(rock, xNew, yNew, angle, img)
   setmetatable(rock, self)
   self.__index = self
 
-  self.ID = "Rock"
-  self.pos = {}
-  self.pos.x, self.pos.y = Rock:spawnRockPosition()
-  self.angle = Rock:getAngleToPlayer(player)
+
+  rock.ID = "Rock"
+  rock.pos = {}
+  rock.pos.x, rock.pos.y = Rock:spawnRockPosition()
+  rock.angle = Rock:getAngleToPlayer(playerPos)
 
   -- velocity of entity in x,y
-  self.maxVel = 10
-  self.accelRate = 10
-  self.vel   = {x = 0, y = 0}
+  rock.maxVel = 300
+  rock.accelRate = 10
+  rock.vel   = {x = 0, y = 0}
 
   -- velcoity of the entity's rotation
-  self.rotVel = 0
-  self.maxRotVel = math.pi
-  self.accelRotRate = math.pi*2
+  rock.rotVel = 0
+  rock.maxRotVel = math.pi
+  rock.accelRotRate = math.pi*2
 
-  self.rotationDir = 0
+  rock.rotationDir = 0
 
   -- changable later
-  self.img = ass.getAssest("rockIMG")
+  rock.img = asset.getAssest("rockIMG")
 
   -- initilize hitbox information, a rectangle at the center of the ship
-  self.hitx = self.pos.x - self.img:getWidth()/4
-  self.hity = self.pos.y - self.img:getHeight()/4
+  rock.hitx = rock.pos.x - rock.img:getWidth()/4
+  rock.hity = rock.pos.y - rock.img:getHeight()/4
 
-  self.hitWidth  = self.img:getWidth()/2
-  self.hitHeight = self.img:getHeight()/2
-
-
-
-  table.insert(rockList,self)
+  rock.hitWidth  = rock.img:getWidth()/2
+  rock.hitHeight = rock.img:getHeight()/2
 
   return rock
 end
 
 -- pick a random side and position to spawn the rock
 function Rock:spawnRockPosition()
-  side = math.random(1, 4)
+  local side = math.random(1, 4)
 
   local x = 0
   local y = 0
@@ -84,8 +79,9 @@ end
 
 -- getAngleToPlayer:
 -- Get the angle that would propell the rock towards the player initially in rads.
-function Rock:getAngleToPlayer(player)
-  return -math.atan2(player.pos.y, player.pos.x)
+-- Uses the pos table from the player entitiy.
+function Rock:getAngleToPlayer(playerPos)
+  return -math.atan2(playerPos.y, playerPos.x)
 end
 
 function Rock:testMove(dt)
@@ -100,7 +96,7 @@ end
 
 function Rock:draw(hitbox)
   -- drawing the hitbox defaults to false
-  hitbox = hitbox or false
+  local hitbox = hitbox or false
 
   love.graphics.draw(self.img,
                       self.pos.x ,

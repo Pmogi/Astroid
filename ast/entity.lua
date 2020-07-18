@@ -1,5 +1,5 @@
 --entity module--
-Entity = {}
+local Entity = {}
 
 -- table for storing all the entities
 local entityTable = {}
@@ -14,17 +14,7 @@ rotationalDir = {dirCW  = 1, dirCCW = -1}
 -- Entity: new --
 -- Makes a new entity
 function Entity:new(entity, xNew, yNew, angle, img)
-  entity = entity or {}
-  setmetatable(entity, self)
-  self.__index = self
-
-  --[[
-   IMPORTANT NOTE:
-   Variables that children classes depend on need to be redefined in the
-   new of the child class. Otherwise, it the child class uses
-   the variables from the entity class. These variables are used here for the
-   definition of the entity class functions.
-  ]]
+  local entity = entity or {}
 
   -- position of entity in x,y
   self.pos = {x = 0, y = 0}
@@ -39,10 +29,6 @@ function Entity:new(entity, xNew, yNew, angle, img)
   self.maxRotVel = math.pi
   self.accelRotRate = math.pi*2
 
-  -- set initial positions of entity
-  self.pos.x = xNew or 0
-  self.pos.y = yNew or 0
-
   -- EDIT INPUT OF NEW: is either nil or the img paramater, can be reset useing setImg method
   self.img = nil
 
@@ -55,6 +41,9 @@ function Entity:new(entity, xNew, yNew, angle, img)
   table.insert(entityTable, self)
   -- increment the stored number of entities
   entityNumber = entityNumber + 1
+
+  setmetatable(entity, self)
+  self.__index = self
 
   return entity
 end
@@ -132,8 +121,8 @@ function Entity:accelerationRotation(dt, active, direction)
 end
 
 function Entity:move(dt, active)
-  self:accelerationForward(dt, active)
 
+  self:accelerationForward(dt, active)
   self.pos.x = self.pos.x + self.vel.x*dt*math.cos(self.angle)
   self.pos.y = self.pos.y + self.vel.y*dt*math.sin(self.angle)
 end

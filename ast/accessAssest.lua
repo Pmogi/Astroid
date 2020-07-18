@@ -11,7 +11,6 @@ assets["bgQuad"] = love.graphics.newQuad(0,0, love.graphics.getWidth(), love.gra
 
 --function accessAssest.getAssest(key)
 function accessAssest.getAssest(key)
-  --print(assets["playerIMG"])
   return assets[key]
 end
 

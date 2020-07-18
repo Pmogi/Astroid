@@ -1,10 +1,10 @@
 -- player module--
 -- Inherits from entity, handles player input
 --
-local name = require "entity"
+local Entity = require "entity"
 local bulletManager = require "bullet"
 
-Player = Entity:new()
+local Player = Entity:new()
 
 -- A timer to prevent the player from spamming bullets
 
@@ -62,10 +62,10 @@ function Player:getAction(dt)
   end
 
   -- rotating the player with a and d
-  if (love.keyboard.isDown('d')) then
+  if (love.keyboard.isDown('d') and not love.keyboard.isDown('a')) then
     self:rotate(dt, true, rotationalDir.dirCW)
 
-  elseif (love.keyboard.isDown('a')) then
+  elseif (love.keyboard.isDown('a') and not love.keyboard.isDown('d')) then
     self:rotate(dt, true, rotationalDir.dirCCW)
   else
     self:rotate(dt, false)
